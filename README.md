@@ -5,6 +5,6 @@ Este proyecto propone el desarrollo de una aplicación interactiva que utiliza l
 - Se activa un filtro animado con emojis que rodean el rostro del usuario, generando una sensación lúdica.
 
 - Aparece un efecto visual de lluvia o nubes grises, representando un estado de ánimo más serio o melancólico.
-- 
+
 - Se despliegan efectos de fuegos artificiales o destellos de luz, simbolizando emoción y asombro.
       
