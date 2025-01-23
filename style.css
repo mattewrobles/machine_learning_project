@@ -68,10 +68,10 @@ body{
 
 #screenshot_button{
   margin-left: 675px;
-  background: url('/images/screenshot.png');
-  /* filter: invert(100%); */
+  background: url('/images/screenshot.svg');
+  filter: invert(100%);
   transition: 0.5s;
-  background-color: #1c5d37;
+  background-color: #f146a4;
 
 }
 #screenshot_button:hover{
@@ -81,9 +81,9 @@ body{
 #save_drawing_button{
   margin-left: 60px;
   background: url('/images/savejson.svg');
-  /* filter: invert(100%); */
+  filter: invert(100%);
   transition: 0.5s;
-  background-color: #e7c452;
+  background-color: #faa5d4;
 }
 #save_drawing_button:hover{
   scale: 1.2;
@@ -92,9 +92,9 @@ body{
 #index_UP_button{
   margin-left: 60px;
   background: url('/images/shapeindex_up.svg');
-  /* filter: invert(100%); */
+  filter: invert(100%);
   transition: 0.5s;
-  background-color: #ef5757;
+  background-color: #205b25;
 }
 #index_UP_button:hover{
   scale: 1.2;
@@ -103,9 +103,9 @@ body{
 #index_DOWN_button{
   margin-left: 60px;
   background: url('/images/shapeindex_down.svg');
-  /* filter: invert(100%); */
+  filter: invert(100%);
   transition: 0.5s;
-  background-color: #7f44e6;
+  background-color: #2b9397;
 }
 #index_DOWN_button:hover{
   scale: 1.2;
