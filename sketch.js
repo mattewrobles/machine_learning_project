@@ -2,8 +2,24 @@ let sketch = function(p){
   let canvas; // Variable para almacenar el lienzo
   let dMouse = []; // Array para almacenar las distancias del mouse a los puntos
   let closest = 0; // Variable para almacenar el punto más cercano
-  let shapes = []; // Array para almacenar las formas dibujadas
   let isEditMode = false; // Variable para controlar el modo de edición
+
+  let shapes = [[]]; // Array para almacenar las formas dibujadas
+
+  /*
+  let sample2DArray =[
+  [0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 200, 300],
+  200,
+  300
+  ]
+  */
+
+  let shapeIndex = 0;
+
+
 
   p.setup = function(){
     canvas = p.createCanvas(640, 480); // Crear un lienzo de 640x480 píxeles
@@ -13,7 +29,7 @@ let sketch = function(p){
   }
 
   p.draw = function(){
-    p.clear(); // Limpiar el lienzo
+    p.clear(); // Limpiar el lienzo 
     if(detections != undefined){ // Verificar si hay detecciones
       if(detections.multiFaceLandmarks != undefined && detections.multiFaceLandmarks.length >= 1){ // Verificar si hay al menos un rostro detectado
         p.drawShapes(); // Llamar a la función drawShapes para dibujar las formas
@@ -51,27 +67,37 @@ let sketch = function(p){
   }
 
   p.mouseClicked = function(){
-    if(isEditMode == true) shapes.push(closest); // Si el modo de edición está activado, agregar el punto más cercano al array shapes
+    if(isEditMode == true) shapes[shapeIndex].push(closest); // Si el modo de edición está activado, agregar el punto más cercano al array shapes
     console.log(shapes); // Imprimir el array shapes en la consola
   }
 
   p.drawShapes = function(){
-    p.fill(0, 0, 0); // Establecer el color de relleno a negro
+    for(let s = 0; s < shapes.length; s++){
+      p.fill(0, 0, 0); // Establecer el color de relleno a negro
     p.stroke(0, 0, 100); // Establecer el color del trazo a blanco
     p.strokeWeight(3); // Establecer el grosor del trazo a 3
 
     p.beginShape(); // Comenzar una nueva forma
-      for(let i = 0; i < shapes.length; i++){ // Iterar sobre los puntos en el array shapes
+      for(let i = 0; i < shapes[s].length; i++){ // Iterar sobre los puntos en el array shapes
         p.vertex(
-          detections.multiFaceLandmarks[0][shapes[i]].x * p.width, // Dibujar el punto en la posición x
-          detections.multiFaceLandmarks[0][shapes[i]].y * p.height // Dibujar el punto en la posición y
+          detections.multiFaceLandmarks[0][shapes[s][i]].x * p.width, // Dibujar el punto en la posición x
+          detections.multiFaceLandmarks[0][shapes[s][i]].y * p.height // Dibujar el punto en la posición y
         );
       }
     p.endShape(); // Finalizar la forma
+    }
+    
   }
 
   p.keyTyped = function(){
     if(p.key === 'e') isEditMode = !isEditMode; // Alternar el modo de edición cuando se presiona la tecla 'e'
+    if(p.key == 'c'){
+      if(shapes[shapes.length-1].length > 0){
+        shapes.push([]);
+        shapeIndex++;
+      }
+      console.log(shapes);
+    }
   }
 }
 
