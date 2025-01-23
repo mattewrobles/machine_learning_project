@@ -1,28 +1,28 @@
-let detections = []; // Array para almacenar las detecciones de rostros
+let detections = [];
 
-const videoElement = document.getElementById('video'); // Obtener el elemento de video del DOM
+const videoElement = document.getElementById('video');
 
 function gotFaces(results) {
-  detections = results; // Actualizar el array de detecciones con los resultados obtenidos
-  // console.log(detections); // Comentado: imprimir las detecciones en la consola
+  detections = results;
+  // console.log(detections);
 }
 
 const faceMesh = new FaceMesh({locateFile: (file) => {
-  return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`; // Configurar la ruta para los archivos de FaceMesh
+  return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
 }});
 
 faceMesh.setOptions({
-  maxNumFaces: 1, // Número máximo de rostros a detectar
-  minDetectionConfidence: 0.5, // Confianza mínima para considerar una detección
-  minTrackingConfidence: 0.5 // Confianza mínima para el seguimiento de rostros
+  maxNumFaces: 1,
+  minDetectionConfidence: 0.5,
+  minTrackingConfidence: 0.5
 });
-faceMesh.onResults(gotFaces); // Asignar la función gotFaces para manejar los resultados
+faceMesh.onResults(gotFaces);
 
 const camera = new Camera(videoElement, {
   onFrame: async () => {
-    await faceMesh.send({image: videoElement}); // Enviar el frame actual del video a FaceMesh para su procesamiento
+    await faceMesh.send({image: videoElement});
   },
-  width: 640, // Ancho del video
-  height: 480 // Alto del video
+  width: 640,//Or 640
+  height: 480 // Or 480
 });
-camera.start(); // Iniciar la cámara
+camera.start();

@@ -9,6 +9,15 @@ let sketch = function(p){
   let stroke_H_Slider, stroke_S_Slider, stroke_B_Slider, stroke_O_Slider;
   let stroke_H_Value, stroke_S_Value, stroke_B_Value, stroke_O_Value;
 
+  let edit_button;
+  let screenshot_button;
+  let save_drawing_button;
+  let index_UP_button;
+  let index_DOWN_button;
+  let complete_button;
+  let undo_button;
+  let delete_button;
+
   let shapes = [{
     fill_H : p.random(255),
     fill_S : 50,
@@ -22,15 +31,37 @@ let sketch = function(p){
   }];
 
   let shapeIndex = 0;
-
   let tParameters;
-
   let capture;
+  let shapesData;
+  let isDraggedOver = false;
 
   p.setup = function(){
     canvas = p.createCanvas(640, 480);
     canvas.id('canvas');
+    canvas.dragOver(() => {
+      isDraggedOver = true;
+    });
+    canvas.dragLeave(() => {
+      isDraggedOver = false;
+    });
+
+    canvas.drop((file) => {
+      if(file.subtype == 'json'){
+        shapes = file.data.shapes;
+        shapeIndex = shapes.length-1;
+        isDraggedOver = false;
+      }else{
+        isDraggedOver = false;
+      }
+    });
+
     p.colorMode(p.HSB, 255, 100, 100, 100);
+
+    edit_button = p.createButton("Edit mode off");
+    edit_button.mousePressed(p.toggleEdit);
+    edit_button.class("Buttons");
+    edit_button.id("edit_button");
 
     fill_H_Value = p.createDiv();
     fill_H_Value.class('valueDisplay');
@@ -72,6 +103,41 @@ let sketch = function(p){
     stroke_O_Slider = p.createSlider(0, 100, 100, 5);
     stroke_O_Slider.class('Slider');
 
+    screenshot_button = p.createButton("");
+    screenshot_button.mousePressed(p.screenShot);
+    screenshot_button.class("imageButtons");
+    screenshot_button.id("screenshot_button");
+
+    save_drawing_button = p.createButton("");
+    save_drawing_button.mousePressed(p.saveDrawing);
+    save_drawing_button.class("imageButtons");
+    save_drawing_button.id("save_drawing_button");
+
+    index_UP_button = p.createButton("");
+    index_UP_button.mousePressed(p.upIndex);
+    index_UP_button.class("imageButtons");
+    index_UP_button.id("index_UP_button");
+
+    index_DOWN_button = p.createButton("");
+    index_DOWN_button.mousePressed(p.downIndex);
+    index_DOWN_button.class("imageButtons");
+    index_DOWN_button.id("index_DOWN_button");
+
+    complete_button = p.createButton("Completado");
+    complete_button.mousePressed(p.complete);
+    complete_button.class("Buttons");
+    complete_button.id("complete_button");
+
+    undo_button = p.createButton("Retroceder");
+    undo_button.mousePressed(p.undo);
+    undo_button.class("Buttons");
+    undo_button.id("undo_button");
+
+    delete_button = p.createButton("Borrar");
+    delete_button.mousePressed(p.deleteDrawing);
+    delete_button.class("Buttons");
+    delete_button.id("delete_button");
+
     tParameters = {
       fill_H : fill_H_Slider.value(),
       fill_S : fill_S_Slider.value(),
@@ -86,6 +152,9 @@ let sketch = function(p){
     capture = p.createCapture(p.VIDEO);
     capture.size(p.width, p.height);
     capture.hide();
+
+    p.textAlign(p.CENTER, p.CENTER);
+    p.textSize(24);
   }
 
   p.draw = function(){
@@ -97,23 +166,30 @@ let sketch = function(p){
           p.faceMesh();
           p.editShapes();
         }
-        p.glow();
+
+        if(isDraggedOver == true){
+          p.noStroke();
+          p.fill(0, 0, 100, 10);
+          p.rect(0, 0, p.width, p.height);
+          p.fill(0, 0, 100);
+          p.text('Drag your drawing here', p.width/2, p.height/2);
+        }
       }
     }
 
-    fill_H_Value.html("fill hue: " + fill_H_Slider.value());
-    fill_S_Value.html("fill saturation: " + fill_S_Slider.value());
-    fill_B_Value.html("fill brightness: " + fill_B_Slider.value());
-    fill_O_Value.html("fill opacity: " + fill_O_Slider.value());
+    fill_H_Value.html("Relleno color: " + fill_H_Slider.value());
+    fill_S_Value.html("Saturación: " + fill_S_Slider.value());
+    fill_B_Value.html("Brillo: " + fill_B_Slider.value());
+    fill_O_Value.html("Opacidad: " + fill_O_Slider.value());
 
-    stroke_H_Value.html("stroke hue: " + stroke_H_Slider.value());
-    stroke_S_Value.html("stroke saturation: " + stroke_S_Slider.value());
-    stroke_B_Value.html("stroke brightness: " + stroke_B_Slider.value());
-    stroke_O_Value.html("stroke opacity: " + stroke_O_Slider.value());
+    stroke_H_Value.html("Contorno: " + stroke_H_Slider.value());
+    stroke_S_Value.html("Saturación borde: " + stroke_S_Slider.value());
+    stroke_B_Value.html("Brillo borde: " + stroke_B_Slider.value());
+    stroke_O_Value.html("Opacidad borde: " + stroke_O_Slider.value());
   }
 
   p.faceMesh = function(){
-    p.stroke(255);
+    p.stroke(0, 0, 100);
     p.strokeWeight(3);
 
     p.beginShape(p.POINTS);
@@ -224,37 +300,29 @@ let sketch = function(p){
   }
 
   p.keyTyped = function(){
-    if(p.key === 'e') isEditMode = !isEditMode;
+    if(p.key === 'e') p.toggleEdit();
+    if(p.key === 'c') p.complete();
+    if(p.key === 'z') p.undo();
+    if(p.key === 'd') p.deleteDrawing();
+    if(p.key === 's') p.screenShot();
+    if(p.key === 'j') p.saveDrawing();
+  }
 
-    if(p.key === 'c'){
-      if(shapes[shapes.length-1].indices.length > 0){
-        shapes.push(
-          {
-            fill_H : p.random(255),
-            fill_S : 50,
-            fill_B : 100,
-            fill_O : 100,
-            stroke_H : p.random(255),
-            stroke_S : 50,
-            stroke_B : 100,
-            stroke_O : 100,
-            indices : []
-          }
-        );
-        shapeIndex = shapes.length-1;
-      }
-      console.log(shapes);
+  p.toggleEdit = function(){
+    isEditMode = !isEditMode;
+
+    if(isEditMode == true){
+      edit_button.html("Crear filtro On");
+    }else if(isEditMode == false){
+      edit_button.html("Crear filtro off");
     }
+  }
 
-    if(p.key === 'z'){
-      if(shapes[shapeIndex] != undefined){
-        if(shapes[shapeIndex].indices.length > 0) shapes[shapeIndex].indices.pop();
-      }
-      console.log(shapes[shapeIndex].indices);
-    }
+  p.complete = function(){
+    if(shapes[shapes.length-1].indices.length > 0){
+      if(shapes[shapeIndex].indices.length == 0 && shapes.length > 1) shapes.splice(shapeIndex, 1);
 
-    if(p.key === 'd'){
-      shapes = [
+      shapes.push(
         {
           fill_H : p.random(255),
           fill_S : 50,
@@ -266,32 +334,82 @@ let sketch = function(p){
           stroke_O : 100,
           indices : []
         }
-      ];
-      shapeIndex = 0;
-      console.log(shapes);
+      );
+      shapeIndex = shapes.length-1;
     }
+    console.log(shapes);
+  }
 
-    if(p.key === 's'){
-      p.image(capture.get(0, 0, p.width, p.height), 0, 0, p.width, p.height);
-      p.drawShapes();
-      p.glow();
-      p.saveCanvas('screenShot', 'png');
+  p.undo = function(){
+    if(shapes[shapeIndex] != undefined){
+      if(shapes[shapeIndex].indices.length > 0) shapes[shapeIndex].indices.pop();
     }
+    console.log(shapes[shapeIndex].indices);
+  }
+
+  p.deleteDrawing = function(){
+    shapes = [
+      {
+        fill_H : p.random(255),
+        fill_S : 50,
+        fill_B : 100,
+        fill_O : 100,
+        stroke_H : p.random(255),
+        stroke_S : 50,
+        stroke_B : 100,
+        stroke_O : 100,
+        indices : []
+      }
+    ];
+    shapeIndex = 0;
+    console.log(shapes);
+  }
+
+  p.screenShot = function(){
+    p.image(capture.get(0, 0, p.width, p.height), 0, 0, p.width, p.height);
+    // p.faceMesh();
+    p.drawShapes();
+    p.glow();
+    p.saveCanvas('screenShot', 'png');
+  }
+
+  p.saveDrawing = function(){
+    let s = {shapes};
+    p.saveJSON(s, 'untitled_shapes.json');
   }
 
   p.keyPressed = function(){
-    if(p.keyCode === p.UP_ARROW){
-      if(shapes[shapeIndex] != undefined){
-        if(shapes[shapeIndex].indices.length == 0 && shapes.length > 1) shapes.splice(shapeIndex, 1);
-        if(shapeIndex < shapes.length-1) shapeIndex++;
-      }
-    } else if(p.keyCode === p.DOWN_ARROW){
-      if(shapes[shapeIndex] != undefined){
-        if(shapes[shapeIndex].indices.length == 0 && shapes.length > 1) shapes.splice(shapeIndex, 1);
-        if(shapeIndex > 0) shapeIndex--;
-      }
+    if(p.keyCode === p.UP_ARROW) p.upIndex();
+    else if(p.keyCode === p.DOWN_ARROW) p.downIndex();
+  }
+
+  p.upIndex = function(){
+    if(shapes[shapeIndex] != undefined){
+      if(shapes[shapeIndex].indices.length == 0 && shapes.length > 1) shapes.splice(shapeIndex, 1);
+      if(shapeIndex < shapes.length-1) shapeIndex++;
+      p.resetSliders();
+      console.log(shapeIndex);
     }
-    console.log(shapeIndex);
+  }
+
+  p.downIndex = function(){
+    if(shapes[shapeIndex] != undefined){
+      if(shapes[shapeIndex].indices.length == 0 && shapes.length > 1) shapes.splice(shapeIndex, 1);
+      if(shapeIndex > 0) shapeIndex--;
+      p.resetSliders();
+      console.log(shapeIndex);
+    }
+  }
+
+  p.resetSliders = function(){
+    fill_H_Slider.value(shapes[shapeIndex].fill_H);
+    fill_S_Slider.value(shapes[shapeIndex].fill_S);
+    fill_B_Slider.value(shapes[shapeIndex].fill_B);
+    fill_O_Slider.value(shapes[shapeIndex].fill_O);
+    stroke_H_Slider.value(shapes[shapeIndex].stroke_H);
+    stroke_S_Slider.value(shapes[shapeIndex].stroke_S);
+    stroke_B_Slider.value(shapes[shapeIndex].stroke_B);
+    stroke_O_Slider.value(shapes[shapeIndex].stroke_O);
   }
 
   p.glow = function(glowColor){
