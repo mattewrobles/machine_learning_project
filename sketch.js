@@ -7,13 +7,11 @@ let sketch = function(p){
   let shapes = [[]]; // Array para almacenar las formas dibujadas
 
   /*
-  let sample2DArray =[
+  let sample2DArray = [
   [0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 200, 300],
-  200,
-  300
+  [0, 0, 0, 0, 0, 0]
   ]
   */
 
@@ -34,6 +32,7 @@ let sketch = function(p){
       if(detections.multiFaceLandmarks != undefined && detections.multiFaceLandmarks.length >= 1){ // Verificar si hay al menos un rostro detectado
         p.drawShapes(); // Llamar a la función drawShapes para dibujar las formas
         if(isEditMode == true) p.faceMesh(); // Si el modo de edición está activado, llamar a la función faceMesh
+        p.glow();
       }
     }
   }
@@ -73,7 +72,8 @@ let sketch = function(p){
 
   p.drawShapes = function(){
     for(let s = 0; s < shapes.length; s++){
-      p.fill(0, 0, 0); // Establecer el color de relleno a negro
+    if(s == shapeIndex) p.fill(0, 0, 50);
+    else p.fill(0, 0, 0); // Establecer el color de relleno a negro
     p.stroke(0, 0, 100); // Establecer el color del trazo a blanco
     p.strokeWeight(3); // Establecer el grosor del trazo a 3
 
@@ -81,7 +81,7 @@ let sketch = function(p){
       for(let i = 0; i < shapes[s].length; i++){ // Iterar sobre los puntos en el array shapes
         p.vertex(
           detections.multiFaceLandmarks[0][shapes[s][i]].x * p.width, // Dibujar el punto en la posición x
-          detections.multiFaceLandmarks[0][shapes[s][i]].y * p.height // Dibujar el punto en la posición y
+          detections.multiFaceLandmarks[0][shapes[s][i]].y * p.height, // Dibujar el punto en la posición y
         );
       }
     p.endShape(); // Finalizar la forma
@@ -91,19 +91,19 @@ let sketch = function(p){
 
   p.keyTyped = function(){
     if(p.key === 'e') isEditMode = !isEditMode; // Alternar el modo de edición cuando se presiona la tecla 'e'
-    if(p.key == 'c'){
+    if(p.key === 'c'){
       if(shapes[shapes.length-1].length > 0){
         shapes.push([]);
-        shapeIndex++;
+        shapeIndex = shapes.length-1;
       }
       console.log(shapes);
     }
 
     if (p.key === 'z'){
-      if(shapes[shapes.length-1].length > 0){
-        shapes[shapes.length-1].pop();
+      if(shapes[shapeIndex] != undefined){
+        if(shapes[shapeIndex].length > 0) shapes[shapeIndex].pop();
       }
-      console.log(shapes[shapes.length-1]);
+      console.log(shapes[shapeIndex]);
     }
 
     if (p.key === 'd'){
@@ -112,6 +112,31 @@ let sketch = function(p){
       console.log(shapes);
     }
   }
+
+  p.keyPressed = function(){
+    if(p.keyCode === p.UP_ARROW){
+      if(shapes[shapeIndex] != undefined){
+      if(shapes[shapeIndex].length == 0 && shapes.length > 1) shapes.splice(shapeIndex, 1);
+      if(shapeIndex < shapes.length-1) shapeIndex++;
+      }
+    } else if(p.keyCode === p.DOWN_ARROW){
+      if(shapes[shapeIndex] != undefined){
+      if(shapes[shapeIndex].length == 0 && shapes.length > 1) shapes.splice(shapeIndex, 1);
+      if(shapeIndex > 0) shapeIndex--;
+
+      }
+  }
+  console.log(shapeIndex);
+}
+
+
+  p.glow = function(){
+    p.drawingContext.shadowOffsetX = 0;
+    p.drawingContext.shadowOffsetY = 0;
+    p.drawingContext.shadowBlur = 20;
+    p.drawingContext.shadowColor = 'rgba(255, 255, 255, 100)';
+  }
+
 }
 
 let myp5 = new p5(sketch); // Crear una nueva instancia de p5 con la función sketch
