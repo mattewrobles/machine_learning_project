@@ -68,7 +68,7 @@ body{
 
 #screenshot_button{
   margin-left: 675px;
-  background: url('/images/screenshot.svg');
+  background: url('images/screenshot.svg');
   filter: invert(100%);
   transition: 0.5s;
   background-color: #f146a4;
@@ -80,7 +80,7 @@ body{
 
 #save_drawing_button{
   margin-left: 60px;
-  background: url('/images/savejson.svg');
+  background: url('images/savejson.svg');
   filter: invert(100%);
   transition: 0.5s;
   background-color: #faa5d4;
@@ -91,7 +91,7 @@ body{
 
 #index_UP_button{
   margin-left: 60px;
-  background: url('/images/shapeindex_up.svg');
+  background: url('images/shapeindex_up.svg');
   filter: invert(100%);
   transition: 0.5s;
   background-color: #205b25;
@@ -102,7 +102,7 @@ body{
 
 #index_DOWN_button{
   margin-left: 60px;
-  background: url('/images/shapeindex_down.svg');
+  background: url('images/shapeindex_down.svg');
   filter: invert(100%);
   transition: 0.5s;
   background-color: #2b9397;
