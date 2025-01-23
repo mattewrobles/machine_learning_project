@@ -68,10 +68,10 @@ body{
 
 #screenshot_button{
   margin-left: 675px;
-  background: url('/images/screenshot.svg');
+  background: url('/images/screenshot.png');
   /* filter: invert(100%); */
   transition: 0.5s;
-  background-color: #1c5d37;
+  /* background-color: #1c5d37; */
 
 }
 #screenshot_button:hover{
