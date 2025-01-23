@@ -1,21 +1,33 @@
 body {
-  background-color: #000;
+  background-color: #16423C; /* Establecer el color de fondo del cuerpo a negro */
 }
 
 #canvas{
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index:1;
-  border: 3px #fff solid;
-	border-radius: 10px;
+  position: absolute; /* Posicionar el lienzo de forma absoluta */
+  top: 10px; /* Establecer la posición superior a 10 píxeles */
+  left: 10px; /* Establecer la posición izquierda a 10 píxeles */
+  z-index:1; /* Establecer el índice z a 1 para que esté por encima del video */
+  border: 3px #fff solid; /* Establecer un borde sólido blanco de 3 píxeles */
+  border-radius: 10px; /* Redondear las esquinas del borde */
 }
 
 #video{
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index:-1;
-  border: 3px #fff solid;
-	border-radius: 10px;
+  position: absolute; /* Posicionar el video de forma absoluta */
+  top: 10px; /* Establecer la posición superior a 10 píxeles */
+  left: 10px; /* Establecer la posición izquierda a 10 píxeles */
+  z-index:-1; /* Establecer el índice z a -1 para que esté por debajo del lienzo */
+  border: 3px #fff solid; /* Establecer un borde sólido blanco de 3 píxeles */
+  border-radius: 10px; /* Redondear las esquinas del borde */
+}
+
+.fx {
+  background-color: #333; /* Establecer el color de fondo del div fx a gris oscuro */
+  display: inline-block; /* Mostrar el div como un bloque en línea */
+}
+
+.derecha {
+  color: #C4DAD2;
+  display: inline-block; /* Mostrar el div como un bloque en línea */
+  vertical-align: top; /* Alinear el div verticalmente en la parte superior */
+  margin-left: 680px; /* Agregar un margen izquierdo de 10 píxeles */
 }
