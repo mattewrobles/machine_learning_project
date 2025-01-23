@@ -20,6 +20,23 @@ body {
   border-radius: 10px; /* Redondear las esquinas del borde */
 }
 
+.valueDisplay{
+  position: relative;
+  margin-left: 665px;
+  color: #fff;
+}
+
+.Slider{
+  position: relative;
+  margin-top: 5px;
+  margin-left: 660px;
+  margin-bottom: 10px;
+}
+
+.Slider::-webkit-slider-thumb {
+}
+
+
 .fx {
   background-color: #333; /* Establecer el color de fondo del div fx a gris oscuro */
   display: inline-block; /* Mostrar el div como un bloque en línea */

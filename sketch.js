@@ -4,16 +4,18 @@ let sketch = function(p){
   let closest = 0; // Variable para almacenar el punto más cercano
   let isEditMode = false; // Variable para controlar el modo de edición
 
-  let shapes = [[]]; // Array para almacenar las formas dibujadas
+  let fill_H_Slider;
+  let fill_H_Value;
+  let stroke_H_Slider;
+  let stroke_H_value;
 
-  /*
-  let sample2DArray = [
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0]
-  ]
-  */
+  let shapes = [{
+    fill_H : p.random(360),
+    stroke_H : p.random(360),
+    indices : []
+  }]; // Array para almacenar las formas dibujadas
+
+
 
   let shapeIndex = 0;
 
@@ -24,6 +26,16 @@ let sketch = function(p){
     canvas.id('canvas'); // Asignar un ID al lienzo
 
     p.colorMode(p.HSB); // Establecer el modo de color a HSB
+
+    fill_H_Value = p.createDiv();
+    fill_H_Value.class('valueDisplay');
+    fill_H_Slider = p.createSlider(0, 360, p.random(360), 5);
+    fill_H_Slider.class('Slider');
+
+    stroke_H_Value = p.createDiv();
+    stroke_H_Value.class('valueDisplay');
+    stroke_H_Slider = p.createSlider(0, 360, p.random(360), 5);
+    stroke_H_Slider.class('Slider');
   }
 
   p.draw = function(){
@@ -31,10 +43,17 @@ let sketch = function(p){
     if(detections != undefined){ // Verificar si hay detecciones
       if(detections.multiFaceLandmarks != undefined && detections.multiFaceLandmarks.length >= 1){ // Verificar si hay al menos un rostro detectado
         p.drawShapes(); // Llamar a la función drawShapes para dibujar las formas
-        if(isEditMode == true) p.faceMesh(); // Si el modo de edición está activado, llamar a la función faceMesh
+        if(isEditMode == true){
+          p.faceMesh(); 
+          p.editShapes();
+        } 
         p.glow();
       }
     }
+
+    fill_H_Value.html("fill hue: " + fill_H_Slider.value());
+    stroke_H_Value.html("stroke hue: " + fill_H_Slider.value());
+
   }
 
   p.faceMesh = function(){
@@ -66,34 +85,52 @@ let sketch = function(p){
   }
 
   p.mouseClicked = function(){
-    if(isEditMode == true) shapes[shapeIndex].push(closest); // Si el modo de edición está activado, agregar el punto más cercano al array shapes
-    console.log(shapes); // Imprimir el array shapes en la consola
+    if(p.mouseX >= 0 && p.mouseX <= p.width){
+      if(p.mouseY >= 0 && p.mouseY <= p.height){
+        if(isEditMode == true) { // Si el modo de edición está activado, agregar el punto más cercano al array shapes
+          shapes[shapeIndex].indices.push(closest); 
+          console.log(shapes); // Imprimir el array shapes en la consola
+      }
+    }
+    
   }
+}
 
   p.drawShapes = function(){
     for(let s = 0; s < shapes.length; s++){
-    if(s == shapeIndex) p.fill(0, 0, 50);
-    else p.fill(0, 0, 0); // Establecer el color de relleno a negro
-    p.stroke(0, 0, 100); // Establecer el color del trazo a blanco
+    if(s == shapeIndex) p.fill(shapes[s].fill_H, 50, 100);
+    else p.fill(shapes[s].fill_H, 100, 100); // Establecer el color de relleno a negro
+    p.stroke(shapes [s].stroke_H, 100, 100); // Establecer el color del trazo a blanco
     p.strokeWeight(3); // Establecer el grosor del trazo a 3
 
     p.beginShape(); // Comenzar una nueva forma
-      for(let i = 0; i < shapes[s].length; i++){ // Iterar sobre los puntos en el array shapes
+      for(let i = 0; i < shapes[s].indices.length; i++){ // Iterar sobre los puntos en el array shapes
         p.vertex(
-          detections.multiFaceLandmarks[0][shapes[s][i]].x * p.width, // Dibujar el punto en la posición x
-          detections.multiFaceLandmarks[0][shapes[s][i]].y * p.height, // Dibujar el punto en la posición y
+          detections.multiFaceLandmarks[0][shapes[s].indices[i]].x * p.width, // Dibujar el punto en la posición x
+          detections.multiFaceLandmarks[0][shapes[s].indices[i]].y * p.height, // Dibujar el punto en la posición y
         );
       }
     p.endShape(); // Finalizar la forma
     }
-    
   }
+
+  p.editShapes = function(){
+    shapes[shapeIndex].fill_H = fill_H_Slider.value();
+    shapes[shapeIndex].fill_H = fill_H_Slider.value();
+  }
+
 
   p.keyTyped = function(){
     if(p.key === 'e') isEditMode = !isEditMode; // Alternar el modo de edición cuando se presiona la tecla 'e'
     if(p.key === 'c'){
-      if(shapes[shapes.length-1].length > 0){
-        shapes.push([]);
+      if(shapes[shapes.length-1].indices.length > 0){
+        shapes.push(
+          {
+          fill_H : p.random(360),
+          stroke_H : p.random(360),
+          indices : []
+        }
+      );
         shapeIndex = shapes.length-1;
       }
       console.log(shapes);
@@ -101,13 +138,19 @@ let sketch = function(p){
 
     if (p.key === 'z'){
       if(shapes[shapeIndex] != undefined){
-        if(shapes[shapeIndex].length > 0) shapes[shapeIndex].pop();
+        if(shapes[shapeIndex].indices.length > 0) shapes[shapeIndex].indices.pop();
       }
-      console.log(shapes[shapeIndex]);
+      console.log(shapes[shapeIndex].indices);
     }
 
     if (p.key === 'd'){
-      shapes = [[]];
+      shapes = [
+        {
+          fill_H : p.random(360),
+          stroke_H : p.random(360),
+          indices : []
+        }
+      ];
       shapeIndex = 0;
       console.log(shapes);
     }
