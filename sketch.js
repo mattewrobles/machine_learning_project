@@ -98,6 +98,19 @@ let sketch = function(p){
       }
       console.log(shapes);
     }
+
+    if (p.key === 'z'){
+      if(shapes[shapes.length-1].length > 0){
+        shapes[shapes.length-1].pop();
+      }
+      console.log(shapes[shapes.length-1]);
+    }
+
+    if (p.key === 'd'){
+      shapes = [[]];
+      shapeIndex = 0;
+      console.log(shapes);
+    }
   }
 }
 
