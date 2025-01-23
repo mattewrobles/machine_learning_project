@@ -72,6 +72,7 @@ body{
   filter: invert(100%);
   transition: 0.5s;
   background-color: #f146a4;
+  border-radius: 5px;
 
 }
 #screenshot_button:hover{
@@ -84,6 +85,8 @@ body{
   filter: invert(100%);
   transition: 0.5s;
   background-color: #faa5d4;
+  border-radius: 5px;
+
 }
 #save_drawing_button:hover{
   scale: 1.2;
@@ -94,7 +97,8 @@ body{
   background: url('images/shapeindex_up.svg');
   filter: invert(100%);
   transition: 0.5s;
-  background-color: #205b25;
+  background-color: #308337;
+  border-radius: 5px;
 }
 #index_UP_button:hover{
   scale: 1.2;
@@ -106,6 +110,7 @@ body{
   filter: invert(100%);
   transition: 0.5s;
   background-color: #2b9397;
+  border-radius: 5px;
 }
 #index_DOWN_button:hover{
   scale: 1.2;
@@ -198,7 +203,7 @@ body{
   color: #C4DAD2;
   display: inline-block; 
   vertical-align: top; 
-  margin-left: 680px; 
+  margin-left: 670px; 
 }
 
 .btn {
