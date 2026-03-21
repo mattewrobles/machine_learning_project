@@ -37,8 +37,9 @@ let sketch = function(p){
   let isDraggedOver = false; // Variable para controlar si se está arrastrando un archivo sobre el lienzo
 
   p.setup = function(){
-    canvas = p.createCanvas(640, 480); // Crear un lienzo de 640x480 píxeles
-    canvas.id('canvas'); // Asignar un ID al lienzo
+    canvas = p.createCanvas(640, 480);
+    canvas.id('canvas');
+    canvas.parent('canvas-container');
     canvas.dragOver(() => {
       isDraggedOver = true; // Establecer isDraggedOver a true cuando se arrastra un archivo sobre el lienzo
     });
@@ -58,85 +59,109 @@ let sketch = function(p){
 
     p.colorMode(p.HSB, 255, 100, 100, 100); // Establecer el modo de color a HSB
 
-    edit_button = p.createButton("Edit mode off"); // Crear el botón de edición
-    edit_button.mousePressed(p.toggleEdit); // Asignar la función toggleEdit al botón de edición
-    edit_button.class("Buttons"); // Asignar la clase "Buttons" al botón de edición
-    edit_button.id("edit_button"); // Asignar el ID "edit_button" al botón de edición
+    edit_button = p.createButton("Edit mode off");
+    edit_button.mousePressed(p.toggleEdit);
+    edit_button.class("Buttons");
+    edit_button.id("edit_button");
+    edit_button.parent("controls-edit");
 
-    fill_H_Value = p.createDiv(); // Crear un div para el valor del tono de relleno
-    fill_H_Value.class('valueDisplay'); // Asignar la clase "valueDisplay" al div
-    fill_H_Slider = p.createSlider(0, 255, p.random(255), 5); // Crear un slider para el tono de relleno
-    fill_H_Slider.class('Slider'); // Asignar la clase "Slider" al slider
+    fill_H_Value = p.createDiv();
+    fill_H_Value.class('valueDisplay');
+    fill_H_Value.parent('controls-fill');
+    fill_H_Slider = p.createSlider(0, 255, p.random(255), 5);
+    fill_H_Slider.class('Slider');
+    fill_H_Slider.parent('controls-fill');
 
-    fill_S_Value = p.createDiv(); // Crear un div para el valor de la saturación de relleno
-    fill_S_Value.class('valueDisplay'); // Asignar la clase "valueDisplay" al div
-    fill_S_Slider = p.createSlider(0, 100, 50, 5); // Crear un slider para la saturación de relleno
-    fill_S_Slider.class('Slider'); // Asignar la clase "Slider" al slider
+    fill_S_Value = p.createDiv();
+    fill_S_Value.class('valueDisplay');
+    fill_S_Value.parent('controls-fill');
+    fill_S_Slider = p.createSlider(0, 100, 50, 5);
+    fill_S_Slider.class('Slider');
+    fill_S_Slider.parent('controls-fill');
 
-    fill_B_Value = p.createDiv(); // Crear un div para el valor del brillo de relleno
-    fill_B_Value.class('valueDisplay'); // Asignar la clase "valueDisplay" al div
-    fill_B_Slider = p.createSlider(0, 100, 100, 5); // Crear un slider para el brillo de relleno
-    fill_B_Slider.class('Slider'); // Asignar la clase "Slider" al slider
+    fill_B_Value = p.createDiv();
+    fill_B_Value.class('valueDisplay');
+    fill_B_Value.parent('controls-fill');
+    fill_B_Slider = p.createSlider(0, 100, 100, 5);
+    fill_B_Slider.class('Slider');
+    fill_B_Slider.parent('controls-fill');
 
-    fill_O_Value = p.createDiv(); // Crear un div para el valor de la opacidad de relleno
-    fill_O_Value.class('valueDisplay'); // Asignar la clase "valueDisplay" al div
-    fill_O_Slider = p.createSlider(0, 100, 100, 5); // Crear un slider para la opacidad de relleno
-    fill_O_Slider.class('Slider'); // Asignar la clase "Slider" al slider
+    fill_O_Value = p.createDiv();
+    fill_O_Value.class('valueDisplay');
+    fill_O_Value.parent('controls-fill');
+    fill_O_Slider = p.createSlider(0, 100, 100, 5);
+    fill_O_Slider.class('Slider');
+    fill_O_Slider.parent('controls-fill');
 
-    stroke_H_Value = p.createDiv(); // Crear un div para el valor del tono de contorno
-    stroke_H_Value.class('valueDisplay'); // Asignar la clase "valueDisplay" al div
-    stroke_H_Slider = p.createSlider(0, 255, p.random(255), 5); // Crear un slider para el tono de contorno
-    stroke_H_Slider.class('Slider'); // Asignar la clase "Slider" al slider
+    stroke_H_Value = p.createDiv();
+    stroke_H_Value.class('valueDisplay');
+    stroke_H_Value.parent('controls-stroke');
+    stroke_H_Slider = p.createSlider(0, 255, p.random(255), 5);
+    stroke_H_Slider.class('Slider');
+    stroke_H_Slider.parent('controls-stroke');
 
-    stroke_S_Value = p.createDiv(); // Crear un div para el valor de la saturación de contorno
-    stroke_S_Value.class('valueDisplay'); // Asignar la clase "valueDisplay" al div
-    stroke_S_Slider = p.createSlider(0, 100, 50, 5); // Crear un slider para la saturación de contorno
-    stroke_S_Slider.class('Slider'); // Asignar la clase "Slider" al slider
+    stroke_S_Value = p.createDiv();
+    stroke_S_Value.class('valueDisplay');
+    stroke_S_Value.parent('controls-stroke');
+    stroke_S_Slider = p.createSlider(0, 100, 50, 5);
+    stroke_S_Slider.class('Slider');
+    stroke_S_Slider.parent('controls-stroke');
 
-    stroke_B_Value = p.createDiv(); // Crear un div para el valor del brillo de contorno
-    stroke_B_Value.class('valueDisplay'); // Asignar la clase "valueDisplay" al div
-    stroke_B_Slider = p.createSlider(0, 100, 100, 5); // Crear un slider para el brillo de contorno
-    stroke_B_Slider.class('Slider'); // Asignar la clase "Slider" al slider
+    stroke_B_Value = p.createDiv();
+    stroke_B_Value.class('valueDisplay');
+    stroke_B_Value.parent('controls-stroke');
+    stroke_B_Slider = p.createSlider(0, 100, 100, 5);
+    stroke_B_Slider.class('Slider');
+    stroke_B_Slider.parent('controls-stroke');
 
-    stroke_O_Value = p.createDiv(); // Crear un div para el valor de la opacidad de contorno
-    stroke_O_Value.class('valueDisplay'); // Asignar la clase "valueDisplay" al div
-    stroke_O_Slider = p.createSlider(0, 100, 100, 5); // Crear un slider para la opacidad de contorno
-    stroke_O_Slider.class('Slider'); // Asignar la clase "Slider" al slider
+    stroke_O_Value = p.createDiv();
+    stroke_O_Value.class('valueDisplay');
+    stroke_O_Value.parent('controls-stroke');
+    stroke_O_Slider = p.createSlider(0, 100, 100, 5);
+    stroke_O_Slider.class('Slider');
+    stroke_O_Slider.parent('controls-stroke');
 
-    screenshot_button = p.createButton(""); // Crear el botón de captura de pantalla
-    screenshot_button.mousePressed(p.screenShot); // Asignar la función screenShot al botón de captura de pantalla
-    screenshot_button.class("imageButtons"); // Asignar la clase "imageButtons" al botón de captura de pantalla
-    screenshot_button.id("screenshot_button"); // Asignar el ID "screenshot_button" al botón de captura de pantalla
+    screenshot_button = p.createButton("");
+    screenshot_button.mousePressed(p.screenShot);
+    screenshot_button.class("imageButtons");
+    screenshot_button.id("screenshot_button");
+    screenshot_button.parent("controls-extra");
 
-    save_drawing_button = p.createButton(""); // Crear el botón para guardar el dibujo
-    save_drawing_button.mousePressed(p.saveDrawing); // Asignar la función saveDrawing al botón para guardar el dibujo
-    save_drawing_button.class("imageButtons"); // Asignar la clase "imageButtons" al botón para guardar el dibujo
-    save_drawing_button.id("save_drawing_button"); // Asignar el ID "save_drawing_button" al botón para guardar el dibujo
+    save_drawing_button = p.createButton("");
+    save_drawing_button.mousePressed(p.saveDrawing);
+    save_drawing_button.class("imageButtons");
+    save_drawing_button.id("save_drawing_button");
+    save_drawing_button.parent("controls-extra");
 
-    index_UP_button = p.createButton(""); // Crear el botón para aumentar el índice de la forma
-    index_UP_button.mousePressed(p.upIndex); // Asignar la función upIndex al botón para aumentar el índice de la forma
-    index_UP_button.class("imageButtons"); // Asignar la clase "imageButtons" al botón para aumentar el índice de la forma
-    index_UP_button.id("index_UP_button"); // Asignar el ID "index_UP_button" al botón para aumentar el índice de la forma
+    index_UP_button = p.createButton("");
+    index_UP_button.mousePressed(p.upIndex);
+    index_UP_button.class("imageButtons");
+    index_UP_button.id("index_UP_button");
+    index_UP_button.parent("controls-extra");
 
-    index_DOWN_button = p.createButton(""); // Crear el botón para disminuir el índice de la forma
-    index_DOWN_button.mousePressed(p.downIndex); // Asignar la función downIndex al botón para disminuir el índice de la forma
-    index_DOWN_button.class("imageButtons"); // Asignar la clase "imageButtons" al botón para disminuir el índice de la forma
-    index_DOWN_button.id("index_DOWN_button"); // Asignar el ID "index_DOWN_button" al botón para disminuir el índice de la forma
+    index_DOWN_button = p.createButton("");
+    index_DOWN_button.mousePressed(p.downIndex);
+    index_DOWN_button.class("imageButtons");
+    index_DOWN_button.id("index_DOWN_button");
+    index_DOWN_button.parent("controls-extra");
 
-    complete_button = p.createButton("Completado"); // Crear el botón para completar una forma
-    complete_button.mousePressed(p.complete); // Asignar la función complete al botón para completar una forma
-    complete_button.class("Buttons"); // Asignar la clase "Buttons" al botón para completar una forma
-    complete_button.id("complete_button"); // Asignar el ID "complete_button" al botón para completar una forma
+    complete_button = p.createButton("Completado");
+    complete_button.mousePressed(p.complete);
+    complete_button.class("Buttons");
+    complete_button.id("complete_button");
+    complete_button.parent("controls-shape");
 
-    undo_button = p.createButton("Retroceder"); // Crear el botón para deshacer la última acción
-    undo_button.mousePressed(p.undo); // Asignar la función undo al botón para deshacer la última acción
-    undo_button.class("Buttons"); // Asignar la clase "Buttons" al botón para deshacer la última acción
-    undo_button.id("undo_button"); // Asignar el ID "undo_button" al botón para deshacer la última acción
+    undo_button = p.createButton("Retroceder");
+    undo_button.mousePressed(p.undo);
+    undo_button.class("Buttons");
+    undo_button.id("undo_button");
+    undo_button.parent("controls-shape");
 
-    delete_button = p.createButton("Borrar"); // Crear el botón para borrar el dibujo
-    delete_button.mousePressed(p.deleteDrawing); // Asignar la función deleteDrawing al botón para borrar el dibujo
-    delete_button.class("Buttons"); // Asignar la clase "Buttons" al botón para borrar el dibujo
-    delete_button.id("delete_button"); // Asignar el ID "delete_button" al botón para borrar el dibujo
+    delete_button = p.createButton("Borrar");
+    delete_button.mousePressed(p.deleteDrawing);
+    delete_button.class("Buttons");
+    delete_button.id("delete_button");
+    delete_button.parent("controls-shape");
 
     tParameters = {
       fill_H : fill_H_Slider.value(), // Valor del tono de relleno

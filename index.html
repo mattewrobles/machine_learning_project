@@ -8,18 +8,18 @@
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.js"></script>
-  <script defer language="javascript" type="text/javascript" src="detection.js"></script>
-  <script defer language="javascript" type="text/javascript" src="sketch.js"></script>
+  <script defer src="detection.js"></script>
+  <script defer src="sketch.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="style.css">
   <title>Face Filter Studio</title>
 </head>
-
 <body>
   <div class="layout">
 
+    <!-- Camera -->
     <div class="camera-area">
       <div class="camera-header">
         <a class="back-link" href="https://mattewrobles.github.io">
@@ -31,43 +31,66 @@
       </div>
       <div class="fx">
         <video id="video" width="640px" height="480px"></video>
+        <div id="canvas-container"></div>
       </div>
     </div>
 
-    <div class="sidebar">
-      <div class="sidebar-section">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+      <div class="sidebar-block">
         <h1 class="sidebar-title">Crea tu<br><span>propio filtro</span></h1>
         <p class="sidebar-desc">Dibuja formas sobre tu rostro usando puntos de MediaPipe FaceMesh.</p>
       </div>
 
-      <div class="sidebar-section">
-        <h2 class="section-label">Instrucciones</h2>
-        <ol class="steps">
-          <li><strong>E</strong> — Activa modo edición</li>
-          <li>Selecciona color y dibuja en tu cara</li>
-          <li><strong>Completado</strong> — termina una forma</li>
-          <li><strong>S</strong> — Screenshot · <strong>J</strong> — Guardar JSON</li>
-        </ol>
+      <!-- Edit toggle -->
+      <div class="sidebar-block" id="controls-edit"></div>
+
+      <!-- Shape actions -->
+      <div class="sidebar-block">
+        <p class="block-label">Forma actual</p>
+        <div id="controls-shape" class="btn-row"></div>
       </div>
 
-      <div class="sidebar-section">
-        <h2 class="section-label">Atajos de teclado</h2>
+      <!-- Extra actions -->
+      <div class="sidebar-block">
+        <p class="block-label">Guardar</p>
+        <div id="controls-extra" class="icon-row"></div>
+      </div>
+
+      <!-- Fill sliders -->
+      <div class="sidebar-block">
+        <p class="block-label">Color de relleno</p>
+        <div id="controls-fill" class="sliders-group"></div>
+      </div>
+
+      <!-- Stroke sliders -->
+      <div class="sidebar-block">
+        <p class="block-label">Color de contorno</p>
+        <div id="controls-stroke" class="sliders-group"></div>
+      </div>
+
+      <!-- Shortcuts -->
+      <div class="sidebar-block">
+        <p class="block-label">Atajos de teclado</p>
         <div class="shortcuts">
           <span class="key">E</span><span>Edit mode</span>
           <span class="key">C</span><span>Completar</span>
           <span class="key">Z</span><span>Deshacer</span>
           <span class="key">D</span><span>Borrar</span>
+          <span class="key">S</span><span>Screenshot</span>
+          <span class="key">J</span><span>Guardar JSON</span>
         </div>
       </div>
 
-      <div class="sidebar-section">
+      <div class="sidebar-block">
         <a href="https://github.com/mattewrobles/machine_learning_project/tree/main"
            target="_blank" rel="noopener noreferrer" class="docs-link">
           Ver documentación completa →
         </a>
       </div>
-    </div>
 
+    </aside>
   </div>
 </body>
 </html>
