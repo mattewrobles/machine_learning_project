@@ -20,6 +20,7 @@ html, body {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  width: 660px;
   border-right: 1px solid rgba(255,255,255,0.06);
 }
 
@@ -55,11 +56,11 @@ html, body {
 
 .fx {
   position: relative;
-  flex: 1;
+  width: 660px;
+  height: 500px;
+  flex-shrink: 0;
   background: #070810;
   overflow: hidden;
-  display: flex;
-  align-items: flex-start;
 }
 
 #video {
