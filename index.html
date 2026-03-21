@@ -1,53 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.js"></script>
-    <script src="https://unpkg.com/ml5@1/dist/ml5.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.js"></script>
   <script defer language="javascript" type="text/javascript" src="detection.js"></script>
   <script defer language="javascript" type="text/javascript" src="sketch.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="style.css">
-  <title>Tu propio filtro</title>
+  <title>Face Filter Studio</title>
 </head>
 
 <body>
-  <div class="fx">
-    <video id="video" width="640px" height="480px"></video>
-  </div>
-  <div class="derecha">
-    <div class="container">
-      <h1>Crea tu propio filtro</h1>
-      
-      <h3>¿Qué pasaría si pudieras dibujar sobre tu rostro y crear tu propio filtro? </h3>
-      <p>
-      <strong>Paso 1:</strong>  Habilita el modo de edición o aplasta la letra <strong>E</strong>
-      <br>
-      <br>
-      <strong>Paso 2:</strong>  Selecciona tu color favorito y comienza a dibujar, no hay límite.
-      <br>
-      <br>
-      <strong>Paso 3:</strong>  Al terminar una forma aplasta completado y podrás seguir dibujando, 
-      <br>si te confundes da click en retroceder o si deseas borrar todo aplasta borrar.
-      <br>
-      <br>
-      <strong>Paso 4:</strong>  Puedes guardar una captura de tu arte, o también el filtro para poderlo usar después.
-      <br>
+  <div class="layout">
+
+    <div class="camera-area">
+      <div class="camera-header">
+        <a class="back-link" href="https://mattewrobles.github.io">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <span class="camera-title">Face Filter Studio</span>
+      </div>
+      <div class="fx">
+        <video id="video" width="640px" height="480px"></video>
+      </div>
     </div>
-    
-  </div>
-  <div class="btn">
-    <a
-      href="https://github.com/mattewrobles/machine_learning_project/tree/main"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="button"
-      >Instrucciones a detalle</a>
+
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <h1 class="sidebar-title">Crea tu<br><span>propio filtro</span></h1>
+        <p class="sidebar-desc">Dibuja formas sobre tu rostro usando puntos de MediaPipe FaceMesh.</p>
+      </div>
+
+      <div class="sidebar-section">
+        <h2 class="section-label">Instrucciones</h2>
+        <ol class="steps">
+          <li><strong>E</strong> — Activa modo edición</li>
+          <li>Selecciona color y dibuja en tu cara</li>
+          <li><strong>Completado</strong> — termina una forma</li>
+          <li><strong>S</strong> — Screenshot · <strong>J</strong> — Guardar JSON</li>
+        </ol>
+      </div>
+
+      <div class="sidebar-section">
+        <h2 class="section-label">Atajos de teclado</h2>
+        <div class="shortcuts">
+          <span class="key">E</span><span>Edit mode</span>
+          <span class="key">C</span><span>Completar</span>
+          <span class="key">Z</span><span>Deshacer</span>
+          <span class="key">D</span><span>Borrar</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <a href="https://github.com/mattewrobles/machine_learning_project/tree/main"
+           target="_blank" rel="noopener noreferrer" class="docs-link">
+          Ver documentación completa →
+        </a>
+      </div>
+    </div>
+
   </div>
 </body>
 </html>
